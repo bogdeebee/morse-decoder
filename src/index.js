@@ -38,7 +38,35 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    const rowLetterSpace = "**********";
+    const piecePoint = "10";
+    const pieceDash = "11";
+    const byTenRegExp = /.{10}/g;
+    const byTwoRegExp = /.{2}/g;
+    const rowLettersArr = expr.match(byTenRegExp);
+    const lettersArr = rowLettersArr.map((rowLetter) => {
+        if (rowLetter === rowLetterSpace) {
+            return " ";
+        }
+
+        const rowLetterPiecesArr = rowLetter.match(byTwoRegExp);
+        const morseSymbolsArr = rowLetterPiecesArr.map((rowLetterPiece) => {
+            switch (rowLetterPiece) {
+                case piecePoint:
+                    return ".";
+                case pieceDash:
+                    return "-";
+                default:
+                    return "";
+            }
+        });
+
+        const morseString = morseSymbolsArr.join('');
+
+        return MORSE_TABLE[morseString];
+    });
+
+    return lettersArr.join('');
 }
 
 module.exports = {
